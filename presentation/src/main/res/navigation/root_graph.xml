@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootGraph"
+    app:startDestination="@id/PokemonListFragment">
+
+    <fragment
+        android:id="@+id/PokemonListFragment"
+        android:name="com.frankito.presentation.features.pokemonlist.PokemonListFragment"
+        tools:layout="@layout/fragment_pokemon_list">
+
+        <action
+            android:id="@+id/actionPokemonSelected"
+            app:destination="@id/PokemonDetailsFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right">
+            <argument
+                android:name="pokemonName"
+                app:argType="string" />
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/PokemonDetailsFragment"
+        android:name="com.frankito.presentation.features.pokemondetails.PokemonDetailsFragment"
+        tools:layout="@layout/fragment_pokemon_details">
+
+        <argument
+            android:name="pokemonName"
+            android:defaultValue="balbasaur"
+            app:argType="string" />
+
+        <action
+            android:id="@+id/actionBackToList"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:destination="@id/PokemonListFragment" />
+    </fragment>
+</navigation>
