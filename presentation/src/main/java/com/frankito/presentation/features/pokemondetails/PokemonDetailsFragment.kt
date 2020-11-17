@@ -2,7 +2,9 @@ package com.frankito.presentation.features.pokemondetails
 
 import android.content.res.ColorStateList
 import android.view.View
+import android.view.animation.AnimationUtils
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
@@ -49,6 +51,14 @@ class PokemonDetailsFragment : BaseFragment<PokemonDetailsViewModel>() {
 
             setupTypeViews(pokemonDetail.types)
             setupAbilities(pokemonDetail.abilities)
+        }
+
+        viewModel.loadingLiveData.observe(this) {
+            loaderLayout.isVisible = it
+            val rotation =
+                AnimationUtils.loadAnimation(requireContext(), R.anim.rotate_indefinitely)
+            rotation.fillAfter = true
+            loaderImage.startAnimation(rotation)
         }
     }
 

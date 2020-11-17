@@ -35,7 +35,6 @@ abstract class BaseFragment<VM : BaseViewModel> : Fragment() {
     ): View? {
         val mainView = inflater.inflate(layoutRes, container, false)
         mainView.setOnTouchListener { _, _ -> true }
-        setupViews(mainView)
         return mainView
     }
 
@@ -43,6 +42,7 @@ abstract class BaseFragment<VM : BaseViewModel> : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.registerNavController(findNavController())
+        setupViews(view)
     }
 
     protected open fun setupViews(view: View) {

@@ -21,7 +21,7 @@ class PokemonLoadingAdapter(private val retry: () -> Unit) :
         RecyclerView.ViewHolder(itemView) {
 
         private val tvErrorMessage: TextView = itemView.tvErrorMessage
-        private val pokeballLoaderImage: ImageView = itemView.pokeballLoaderImage
+        private val pokeBallLoaderImage: ImageView = itemView.pokeballLoaderImage
         private val btnRetry: Button = itemView.btnRetry
 
         init {
@@ -36,11 +36,11 @@ class PokemonLoadingAdapter(private val retry: () -> Unit) :
                 tvErrorMessage.text = loadState.error.localizedMessage
             }
             if (loadState is LoadState.Loading) {
-                pokeballLoaderImage.isVisible = true
+                pokeBallLoaderImage.isVisible = true
                 val rotation =
                     AnimationUtils.loadAnimation(itemView.context, R.anim.rotate_indefinitely)
                 rotation.fillAfter = true
-                pokeballLoaderImage.startAnimation(rotation)
+                pokeBallLoaderImage.startAnimation(rotation)
             }
             tvErrorMessage.isVisible = loadState !is LoadState.Loading
             btnRetry.isVisible = loadState !is LoadState.Loading

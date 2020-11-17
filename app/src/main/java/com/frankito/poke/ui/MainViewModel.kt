@@ -8,7 +8,6 @@ import com.frankito.domain.models.toast.ToastData
 import com.frankito.domain.services.ToastService
 import com.frankito.poke.R
 import com.frankito.presentation.common.BaseViewModel
-import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.collectLatest
 
 class MainViewModel(
