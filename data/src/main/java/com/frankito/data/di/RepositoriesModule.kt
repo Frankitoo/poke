@@ -5,5 +5,5 @@ import com.frankito.domain.repositories.PokemonRepository
 import org.koin.dsl.module
 
 val repositoriesModule = module {
-    single<PokemonRepository> { PokemonRepositoryImpl(get(), get()) }
+    single<PokemonRepository> { PokemonRepositoryImpl(get(), get(), get()) }
 }

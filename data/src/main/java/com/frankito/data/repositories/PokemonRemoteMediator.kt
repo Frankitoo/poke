@@ -7,7 +7,12 @@ import androidx.paging.RemoteMediator
 import com.frankito.data.api.PokemonApi
 import com.frankito.data.api.mappers.toDomainModel
 import com.frankito.data.database.dao.PokemonDao
+import com.frankito.domain.error.ErrorHandler
 import com.frankito.domain.models.pokemon.PokemonListItem
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.yield
 import retrofit2.HttpException
 import java.io.IOException
 
@@ -15,6 +20,8 @@ import java.io.IOException
 class PokemonRemoteMediator(
     private val pokemonApi: PokemonApi,
     private val pokemonDao: PokemonDao,
+    private val errorHandler: ErrorHandler,
+    private val coroutineScope: CoroutineScope = GlobalScope,
 ) : RemoteMediator<Int, PokemonListItem>() {
     override suspend fun load(
         loadType: LoadType,
@@ -32,19 +39,21 @@ class PokemonRemoteMediator(
                 }
             }
 
-            // If loadKey is zero than it should call refresh
-            val response = pokemonApi.getPokemonList(
-                limit = state.config.pageSize,
-                offset = loadKey ?: 0,
-            )
+            coroutineScope.launch(errorHandler) {
+                // If loadKey is zero than it should call refresh
+                val response = pokemonApi.getPokemonList(
+                    limit = state.config.pageSize,
+                    offset = loadKey ?: 0,
+                )
 
-            val pokemonList = response.results.map {
-                it.toDomainModel()
+                val pokemonList = response.results.map {
+                    it.toDomainModel()
+                }
+
+                pokemonDao.insertAll(pokemonList)
             }
 
-            pokemonDao.insertAll(pokemonList)
-
-            MediatorResult.Success(endOfPaginationReached = response.next == null)
+            MediatorResult.Success(endOfPaginationReached = false)
         } catch (e: IOException) {
             return MediatorResult.Error(e)
         } catch (e: HttpException) {
