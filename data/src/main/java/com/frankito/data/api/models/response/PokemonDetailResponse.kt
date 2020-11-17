@@ -6,19 +6,31 @@ import com.squareup.moshi.Json
 
 @Entity
 data class PokemonDetailResponse(
-    @field:Json(name = "id") @PrimaryKey val id: Int,
-    @field:Json(name = "name") val name: String,
-    @field:Json(name = "height") val height: Int,
-    @field:Json(name = "weight") val weight: Int,
-    @field:Json(name = "base_experience") val experience: Int,
-    @field:Json(name = "types") val types: List<TypeResponse>
+    @Json(name = "id") @PrimaryKey val id: Int,
+    @Json(name = "name") val name: String,
+    @Json(name = "height") val height: Int,
+    @Json(name = "weight") val weight: Int,
+    @Json(name = "base_experience") val experience: Int,
+    @Json(name = "types") val types: List<TypeResponse>,
+    @Json(name = "abilities") val abilities: List<AbilityResponse>
 ) {
+    data class AbilityResponse(
+        @Json(name = "ability") val ability: AbilityDetailsResponse,
+        @Json(name = "is_hidden") val isHidden: Boolean,
+        @Json(name = "slot") val slot: Int,
+    )
+
+    data class AbilityDetailsResponse(
+        @Json(name = "name") val name: String,
+        @Json(name = "url") val url: String,
+    )
+
     data class TypeResponse(
-        @field:Json(name = "slot") val slot: Int,
-        @field:Json(name = "type") val type: Type
+        @Json(name = "slot") val slot: Int,
+        @Json(name = "type") val type: Type
     )
 
     data class Type(
-        @field:Json(name = "name") val name: String
+        @Json(name = "name") val name: String
     )
 }

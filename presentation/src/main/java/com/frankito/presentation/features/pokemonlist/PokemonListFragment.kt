@@ -45,8 +45,6 @@ class PokemonListFragment : BaseFragment<PokemonListViewModel>() {
         initAdapter(view)
 
         view.swipe_refresh.setOnRefreshListener { pokemonListAdapter.refresh() }
-
-//        setCustomRefreshIndicator(view)
     }
 
     private fun initAdapter(view: View) {
@@ -69,20 +67,6 @@ class PokemonListFragment : BaseFragment<PokemonListViewModel>() {
             viewModel.fetchPokemons().collectLatest { pagingData ->
                 pokemonListAdapter.submitData(pagingData)
             }
-        }
-    }
-
-    private fun setCustomRefreshIndicator(view: View) {
-        try {
-            val f: Field = view.swipe_refresh.javaClass.getDeclaredField("mCircleView")
-
-            f.isAccessible = true
-            val img: ImageView = f.get(view.swipe_refresh) as ImageView
-            img.setImageResource(R.drawable.pokeball)
-        } catch (e: NoSuchFieldException) {
-            e.printStackTrace()
-        } catch (e: IllegalAccessException) {
-            e.printStackTrace()
         }
     }
 }

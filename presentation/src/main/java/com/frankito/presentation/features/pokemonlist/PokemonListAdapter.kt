@@ -13,13 +13,13 @@ import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
 import com.frankito.domain.models.pokemon.PokemonListItem
 import com.frankito.presentation.R
 import com.frankito.presentation.features.pokemonlist.PokemonListFragment.Companion.SPAN_COUNT
-import com.frankito.presentation.utils.DiffUtilCallBack
+import com.frankito.presentation.utils.PokemonListItemDiffUtilCallback
 import com.frankito.presentation.utils.WindowHelper
 import kotlinx.android.synthetic.main.item_pokemon.view.*
 
 
 class PokemonListAdapter :
-    PagingDataAdapter<PokemonListItem, PokemonListAdapter.PokemonViewHolder>(DiffUtilCallBack()) {
+    PagingDataAdapter<PokemonListItem, PokemonListAdapter.PokemonViewHolder>(PokemonListItemDiffUtilCallback()) {
     var onClickListener: ((PokemonListItem) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PokemonViewHolder {
@@ -73,7 +73,7 @@ class PokemonListAdapter :
 
             Glide.with(itemView.context)
                 .load(pokemonListItem.imageUrl)
-                .centerCrop()
+                .fitCenter()
                 .placeholder(R.drawable.pokeball)
                 .transition(withCrossFade(factory))
                 .into(imageView)

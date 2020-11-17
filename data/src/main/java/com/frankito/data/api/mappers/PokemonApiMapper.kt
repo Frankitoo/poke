@@ -2,8 +2,7 @@ package com.frankito.data.api.mappers
 
 import com.frankito.data.api.models.response.PokemonDetailResponse
 import com.frankito.data.api.models.response.PokemonListItemResponse
-import com.frankito.domain.models.pokemon.PokemonDetail
-import com.frankito.domain.models.pokemon.PokemonListItem
+import com.frankito.domain.models.pokemon.*
 
 fun PokemonListItemResponse.toDomainModel(): PokemonListItem {
     val pokemonId = getPokemonId(url)
@@ -20,9 +19,12 @@ fun PokemonDetailResponse.toDomainModel(): PokemonDetail {
     return PokemonDetail(
         id = id,
         name = name,
-        height = height,
-        weight = weight,
+        height = ValueWithUnit(height, Units.heightUnit),
+        weight = ValueWithUnit(weight, Units.weightUnit),
+        experience = ValueWithUnit(experience, Units.expUnit),
         imageUrl = imageUrl,
+        types = types.map { it.type.name },
+        abilities = abilities.map { it.ability.name }
     )
 }
 

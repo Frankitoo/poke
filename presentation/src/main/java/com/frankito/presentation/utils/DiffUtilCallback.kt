@@ -3,7 +3,7 @@ package com.frankito.presentation.utils
 import androidx.recyclerview.widget.DiffUtil
 import com.frankito.domain.models.pokemon.PokemonListItem
 
-class DiffUtilCallBack : DiffUtil.ItemCallback<PokemonListItem>() {
+class PokemonListItemDiffUtilCallback : DiffUtil.ItemCallback<PokemonListItem>() {
     override fun areItemsTheSame(oldItem: PokemonListItem, newItem: PokemonListItem): Boolean {
         return oldItem.id == newItem.id
     }

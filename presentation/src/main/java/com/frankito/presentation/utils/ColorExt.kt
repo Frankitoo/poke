@@ -2,7 +2,7 @@ package com.frankito.presentation.utils
 
 import com.frankito.presentation.R
 
-fun String.getTypeColor():Int {
+fun String.getTypeColor(): Int {
     return when (this){
         "fighting" -> R.color.fighting
         "flying" -> R.color.flying
