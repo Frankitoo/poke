@@ -3,8 +3,9 @@ package com.frankito.presentation.features.pokemonlist
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.Button
-import android.widget.ProgressBar
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.paging.LoadState
@@ -20,7 +21,7 @@ class PokemonLoadingAdapter(private val retry: () -> Unit) :
         RecyclerView.ViewHolder(itemView) {
 
         private val tvErrorMessage: TextView = itemView.tvErrorMessage
-        private val progressBar: ProgressBar = itemView.progress_bar
+        private val pokeballLoaderImage: ImageView = itemView.pokeballLoaderImage
         private val btnRetry: Button = itemView.btnRetry
 
         init {
@@ -34,7 +35,13 @@ class PokemonLoadingAdapter(private val retry: () -> Unit) :
             if (loadState is LoadState.Error) {
                 tvErrorMessage.text = loadState.error.localizedMessage
             }
-            progressBar.isVisible = loadState is LoadState.Loading
+            if (loadState is LoadState.Loading) {
+                pokeballLoaderImage.isVisible = true
+                val rotation =
+                    AnimationUtils.loadAnimation(itemView.context, R.anim.rotate_indefinitely)
+                rotation.fillAfter = true
+                pokeballLoaderImage.startAnimation(rotation)
+            }
             tvErrorMessage.isVisible = loadState !is LoadState.Loading
             btnRetry.isVisible = loadState !is LoadState.Loading
         }

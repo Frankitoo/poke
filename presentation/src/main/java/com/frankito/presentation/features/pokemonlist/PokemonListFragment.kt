@@ -1,7 +1,6 @@
 package com.frankito.presentation.features.pokemonlist
 
 import android.view.View
-import android.widget.ImageView
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
@@ -9,18 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.frankito.presentation.R
 import com.frankito.presentation.ui.BaseFragment
 import com.frankito.presentation.utils.GridSpacingItemDecoration
-import kotlinx.android.synthetic.main.fragment_pokemon_list.*
 import kotlinx.android.synthetic.main.fragment_pokemon_list.view.*
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.InternalCoroutinesApi
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.distinctUntilChangedBy
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
-import java.lang.reflect.Field
 
 
 class PokemonListFragment : BaseFragment<PokemonListViewModel>() {
@@ -57,13 +47,13 @@ class PokemonListFragment : BaseFragment<PokemonListViewModel>() {
             footer = PokemonLoadingAdapter { pokemonListAdapter.retry() }
         )
 
-        lifecycleScope.launch {
+        lifecycleScope.launchWhenCreated {
             pokemonListAdapter.loadStateFlow.collectLatest { loadStates ->
                 view.swipe_refresh.isRefreshing = loadStates.refresh is LoadState.Loading
             }
         }
 
-        lifecycleScope.launch {
+        lifecycleScope.launchWhenCreated {
             viewModel.fetchPokemons().collectLatest { pagingData ->
                 pokemonListAdapter.submitData(pagingData)
             }
