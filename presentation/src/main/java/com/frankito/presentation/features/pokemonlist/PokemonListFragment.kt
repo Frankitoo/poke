@@ -57,7 +57,7 @@ class PokemonListFragment : BaseFragment<PokemonListViewModel>() {
             footer = PokemonLoadingAdapter { pokemonListAdapter.retry() }
         )
 
-        lifecycleScope.launchWhenCreated {
+        lifecycleScope.launch {
             pokemonListAdapter.loadStateFlow.collectLatest { loadStates ->
                 view.swipe_refresh.isRefreshing = loadStates.refresh is LoadState.Loading
             }

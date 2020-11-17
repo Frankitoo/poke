@@ -7,5 +7,5 @@ import org.koin.dsl.module
 
 val viewModelModule = module {
     viewModel { PokemonListViewModel(get()) }
-    viewModel { PokemonDetailsViewModel(get()) }
+    viewModel { PokemonDetailsViewModel(get(), get()) }
 }

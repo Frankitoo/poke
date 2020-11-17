@@ -21,10 +21,12 @@ class PokemonDetailsFragment : BaseFragment<PokemonDetailsViewModel>() {
     override val viewModel: PokemonDetailsViewModel by viewModel()
 
     override fun setupViews(view: View) {
+        viewModel.fetchPokemon()
+
         view.tvPrimaryType.visibility = View.GONE
         view.tvSecondaryType.visibility = View.GONE
 
-        viewModel.pokemonDetail.observe(this) { pokemonDetail ->
+        viewModel.pokemonDetailLiveData.observe(this) { pokemonDetail ->
             tvName.text = pokemonDetail.name
 
             val heightString = "${pokemonDetail.height.value} ${pokemonDetail.height.unit}"

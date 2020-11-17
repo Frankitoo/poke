@@ -4,9 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
+import com.frankito.domain.models.toast.ToastData
 import com.frankito.domain.services.ToastService
 import com.frankito.poke.R
 import com.frankito.presentation.common.BaseViewModel
+import kotlinx.coroutines.InternalCoroutinesApi
+import kotlinx.coroutines.flow.collectLatest
 
 class MainViewModel(
     toastService: ToastService,
@@ -24,6 +27,10 @@ class MainViewModel(
         override fun onInactive() {
             navController?.removeOnDestinationChangedListener(listener)
         }
+    }
+
+    val toast by liveData<ToastData> {
+        toastService.toastMessage.collectLatest { emit(it) }
     }
 
     val showBackButton = currentDestination.map { destination ->

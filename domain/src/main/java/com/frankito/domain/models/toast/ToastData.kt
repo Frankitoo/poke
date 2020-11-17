@@ -2,16 +2,12 @@ package com.frankito.domain.models.toast
 
 data class ToastData(
     val duration: ToastDuration?,
-    val message: String?,
-    val messageResId: Int?,
-    val iconResId: Int?
+    val message: String?
 ) {
     companion object {
-        fun ofContent(message: String?, iconResId: Int?) = ToastData(
+        fun ofContent(message: String?) = ToastData(
             duration = ToastDuration.LONG,
-            message = message,
-            iconResId = iconResId,
-            messageResId = null
+            message = message
         )
     }
 }

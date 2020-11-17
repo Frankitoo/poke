@@ -11,8 +11,6 @@ import com.frankito.domain.models.toast.ToastData
 import com.frankito.domain.services.ToastService
 import com.frankito.poke.R
 import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 import timber.log.Timber
 import kotlin.coroutines.CoroutineContext
 
@@ -30,8 +28,11 @@ class ApplicationErrorHandler(
                 if (isConnected()) {
                     toastService.showToast(connectionException("Message: ${exception.message}"))
                 } else {
-                    toastService.showToast(connectionException(
-                        applicationContext.getString(R.string.common_network_unavailable)))
+                    toastService.showToast(
+                        connectionException(
+                            applicationContext.getString(R.string.common_network_unavailable)
+                        )
+                    )
                 }
             is UnknownException ->
                 toastService.showToast(unhappyException("UnknownException message: ${exception.message}"))
@@ -43,19 +44,10 @@ class ApplicationErrorHandler(
         ?.activeNetworkInfo?.isConnected ?: false
 
     companion object {
-        fun blockedException(message: String?) = ToastData.ofContent(
-            message = message,
-            iconResId = R.drawable.ic_blocked
-        )
+        fun blockedException(message: String?) = ToastData.ofContent(message = message)
 
-        fun connectionException(message: String?) = ToastData.ofContent(
-            message = message,
-            iconResId = R.drawable.ic_connection_error
-        )
+        fun connectionException(message: String?) = ToastData.ofContent(message = message)
 
-        fun unhappyException(message: String?) = ToastData.ofContent(
-            message = message,
-            iconResId = R.drawable.ic_smiley_unhappy
-        )
+        fun unhappyException(message: String?) = ToastData.ofContent(message = message)
     }
 }
