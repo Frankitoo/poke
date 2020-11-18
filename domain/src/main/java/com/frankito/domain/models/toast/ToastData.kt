@@ -6,7 +6,7 @@ data class ToastData(
 ) {
     companion object {
         fun ofContent(message: String?) = ToastData(
-            duration = ToastDuration.LONG,
+            duration = ToastDuration.SHORT,
             message = message
         )
     }

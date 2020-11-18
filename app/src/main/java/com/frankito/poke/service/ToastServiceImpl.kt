@@ -6,10 +6,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.consumeAsFlow
-import kotlinx.coroutines.flow.drop
-import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.*
 
 class ToastServiceImpl : ToastService {
     @ExperimentalCoroutinesApi
@@ -18,7 +15,8 @@ class ToastServiceImpl : ToastService {
     @ExperimentalCoroutinesApi
     @FlowPreview
     override val toastMessage: Flow<ToastData>
-        get() = channel.openSubscription().consumeAsFlow().drop(1).filterNotNull()
+        get() = channel.openSubscription().consumeAsFlow().drop(1).debounce(1000L)
+            .filterNotNull()
 
     @ExperimentalCoroutinesApi
     override fun showToast(toastData: ToastData) {
