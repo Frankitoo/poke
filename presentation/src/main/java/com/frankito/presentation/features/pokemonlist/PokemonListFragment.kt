@@ -5,10 +5,12 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.frankito.presentation.R
+import com.frankito.presentation.features.pokemonpager.PokemonPagerViewModel
 import com.frankito.presentation.ui.BaseFragment
 import com.frankito.presentation.utils.GridSpacingItemDecoration
 import kotlinx.android.synthetic.main.fragment_pokemon_list.*
 import kotlinx.coroutines.flow.collectLatest
+import org.koin.android.viewmodel.ext.android.sharedViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
@@ -21,6 +23,8 @@ class PokemonListFragment : BaseFragment<PokemonListViewModel>() {
     override val layoutRes: Int = R.layout.fragment_pokemon_list
 
     override val viewModel: PokemonListViewModel by viewModel()
+
+    private val sharedPagerViewModel: PokemonPagerViewModel by sharedViewModel()
 
     private val pokemonListAdapter = PokemonListAdapter()
 
@@ -37,7 +41,7 @@ class PokemonListFragment : BaseFragment<PokemonListViewModel>() {
     }
 
     private fun initAdapter() {
-        pokemonListAdapter.onClickListener = { item -> viewModel.onPokemonSelected(item) }
+        pokemonListAdapter.onClickListener = { item -> sharedPagerViewModel.onPokemonSelected(item) }
 
         rvPokemons.addItemDecoration(gridDecoration)
         rvPokemons.layoutManager = GridLayoutManager(activity, SPAN_COUNT)

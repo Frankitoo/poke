@@ -10,9 +10,11 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
 import com.frankito.presentation.R
+import com.frankito.presentation.features.pokemonpager.PokemonPagerViewModel
 import com.frankito.presentation.ui.BaseFragment
 import com.frankito.presentation.utils.getTypeColor
 import kotlinx.android.synthetic.main.fragment_pokemon_details.*
+import org.koin.android.viewmodel.ext.android.sharedViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class PokemonDetailsFragment : BaseFragment<PokemonDetailsViewModel>() {
@@ -21,8 +23,12 @@ class PokemonDetailsFragment : BaseFragment<PokemonDetailsViewModel>() {
 
     override val viewModel: PokemonDetailsViewModel by viewModel()
 
+    private val sharedPagerViewModel: PokemonPagerViewModel by sharedViewModel()
+
     override fun setupViews() {
-        viewModel.fetchPokemon()
+        sharedPagerViewModel.onPokemonSelectedLiveData.observe(this) {
+            viewModel.fetchPokemon(it)
+        }
 
         tvPrimaryType.visibility = View.GONE
         tvSecondaryType.visibility = View.GONE

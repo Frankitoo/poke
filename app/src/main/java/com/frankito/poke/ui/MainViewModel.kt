@@ -1,17 +1,17 @@
 package com.frankito.poke.ui
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.map
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import com.frankito.domain.models.toast.ToastData
+import com.frankito.domain.services.BackButtonService
 import com.frankito.domain.services.ToastService
-import com.frankito.poke.R
 import com.frankito.presentation.common.BaseViewModel
 import kotlinx.coroutines.flow.collectLatest
 
 class MainViewModel(
     toastService: ToastService,
+    backButtonService: BackButtonService,
 ) : BaseViewModel() {
     private val currentDestination: LiveData<NavDestination> = object : LiveData<NavDestination>() {
         val listener = NavController.OnDestinationChangedListener { _, destination, _ ->
@@ -32,16 +32,7 @@ class MainViewModel(
         toastService.toastMessage.collectLatest { emit(it) }
     }
 
-    val showBackButton = currentDestination.map { destination ->
-        return@map when (destination.id) {
-            in NON_BACK_SCREENS -> false
-            else -> true
-        }
-    }
-
-    companion object {
-        private val NON_BACK_SCREENS = setOf(
-            R.id.PokemonListFragment,
-        )
+    val backButtonVisibility by liveData<Boolean> {
+        backButtonService.isVisible.collectLatest { emit(it) }
     }
 }

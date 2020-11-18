@@ -20,15 +20,11 @@ class PokemonDetailsViewModel(
     private val loadingMutableLiveData: MutableLiveData<Boolean> = MutableLiveData()
     val loadingLiveData: LiveData<Boolean> = loadingMutableLiveData
 
-    fun fetchPokemon() {
+    fun fetchPokemon(pokemonName: String) {
         loadingMutableLiveData.value = true
-        val pokemonName =
-            arguments.value?.let { PokemonDetailsFragmentArgs.fromBundle(it).pokemonName }
         viewModelScope.launch(errorHandler) {
-            pokemonName?.let {
-                val pokemonDetail = pokemonRepository.getPokemon(pokemonName)
-                pokemonDetailMutableLiveData.postValue(pokemonDetail)
-            }
+            val pokemonDetail = pokemonRepository.getPokemon(pokemonName)
+            pokemonDetailMutableLiveData.postValue(pokemonDetail)
         }.invokeOnCompletion {
             loadingMutableLiveData.value = false
         }

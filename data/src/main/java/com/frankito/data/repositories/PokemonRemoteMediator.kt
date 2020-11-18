@@ -39,18 +39,20 @@ class PokemonRemoteMediator(
                 }
             }
 
-            coroutineScope.launch(errorHandler) {
-                // If loadKey is zero than it should call refresh
-                val response = pokemonApi.getPokemonList(
-                    limit = state.config.pageSize,
-                    offset = loadKey ?: 0,
-                )
+            loadKey?.let {
+                coroutineScope.launch(errorHandler) {
+                    // If loadKey is zero than it should call refresh
+                    val response = pokemonApi.getPokemonList(
+                        limit = state.config.pageSize,
+                        offset = loadKey,
+                    )
 
-                val pokemonList = response.results.map {
-                    it.toDomainModel()
+                    val pokemonList = response.results.map {
+                        it.toDomainModel()
+                    }
+
+                    pokemonDao.insertAll(pokemonList)
                 }
-
-                pokemonDao.insertAll(pokemonList)
             }
 
             MediatorResult.Success(endOfPaginationReached = false)
