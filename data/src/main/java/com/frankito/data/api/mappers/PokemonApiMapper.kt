@@ -19,9 +19,10 @@ fun PokemonDetailResponse.toDomainModel(): PokemonDetail {
     return PokemonDetail(
         id = id,
         name = name,
-        height = ValueWithUnit(height, Units.heightUnit),
-        weight = ValueWithUnit(weight, Units.weightUnit),
-        experience = ValueWithUnit(experience, Units.expUnit),
+        // The height and weigh values are in decimeter and hectogram
+        height = DoubleWithUnit(height.toDouble() / 10, Units.heightUnit),
+        weight = IntWithUnit(weight / 10, Units.weightUnit),
+        experience = IntWithUnit(experience, Units.expUnit),
         imageUrl = imageUrl,
         types = types.map { it.type.name },
         abilities = abilities.map { it.ability.name }

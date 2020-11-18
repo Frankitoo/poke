@@ -22,7 +22,7 @@ class PokemonRepositoryImpl(
     @OptIn(ExperimentalPagingApi::class)
     override fun fetchPokemons(): Flow<PagingData<PokemonListItem>> {
         return Pager(
-            PagingConfig(pageSize = 20, enablePlaceholders = false, prefetchDistance = 3),
+            PagingConfig(pageSize = 21, enablePlaceholders = false, prefetchDistance = 3),
             remoteMediator = PokemonRemoteMediator(pokemonApi, pokemonDao, errorHandler),
             pagingSourceFactory = { pokemonDao.getPokemons() }
         ).flow

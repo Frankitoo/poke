@@ -31,7 +31,8 @@ class PokemonDetailsFragment : BaseFragment<PokemonDetailsViewModel>() {
         viewModel.pokemonDetailLiveData.observe(this) { pokemonDetail ->
             tvName.text = pokemonDetail.name
 
-            val heightString = "${pokemonDetail.height.value} ${pokemonDetail.height.unit}"
+            val heightString =
+                "${String.format("%.1f", pokemonDetail.height.value)} ${pokemonDetail.height.unit}"
             tvHeightValue.text = heightString
 
             val weightString = "${pokemonDetail.weight.value} ${pokemonDetail.weight.unit}"
