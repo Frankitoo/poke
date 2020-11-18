@@ -29,8 +29,15 @@ class PokemonPagerViewModel(
             false
         } else {
             currentItemMutableLiveData.value = currentItemMutableLiveData.value?.minus(1)
-            backButtonService.invisible()
             true
+        }
+    }
+
+    fun onPageChanged(position: Int) {
+        if (position == 0) {
+            backButtonService.invisible()
+        } else {
+            backButtonService.visible()
         }
     }
 
@@ -38,7 +45,6 @@ class PokemonPagerViewModel(
         if (connectionService.isConnected()) {
             onPokemonSelectedMutableLiveData.value = pokemonListItem.name
             currentItemMutableLiveData.value = 1
-            backButtonService.visible()
         } else {
             toastService.showToast(
                 ToastData.ofContent(

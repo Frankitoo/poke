@@ -12,7 +12,6 @@ import com.frankito.domain.models.pokemon.PokemonListItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.yield
 import retrofit2.HttpException
 import java.io.IOException
 
@@ -39,20 +38,18 @@ class PokemonRemoteMediator(
                 }
             }
 
-            loadKey?.let {
-                coroutineScope.launch(errorHandler) {
-                    // If loadKey is zero than it should call refresh
-                    val response = pokemonApi.getPokemonList(
-                        limit = state.config.pageSize,
-                        offset = loadKey,
-                    )
+            coroutineScope.launch(errorHandler) {
+                // If loadKey is zero than it should call refresh
+                val response = pokemonApi.getPokemonList(
+                    limit = state.config.pageSize,
+                    offset = loadKey ?: 0,
+                )
 
-                    val pokemonList = response.results.map {
-                        it.toDomainModel()
-                    }
-
-                    pokemonDao.insertAll(pokemonList)
+                val pokemonList = response.results.map {
+                    it.toDomainModel()
                 }
+
+                pokemonDao.insertAll(pokemonList)
             }
 
             MediatorResult.Success(endOfPaginationReached = false)

@@ -38,6 +38,13 @@ class PokemonPagerFragment : BaseFragment<PokemonPagerViewModel>() {
             viewPager.isUserInputEnabled = it == 1
         }
 
+        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                viewModel.onPageChanged(position)
+            }
+        })
+
         onBackPressedCallback = requireActivity().onBackPressedDispatcher.addCallback(this) {
             viewModel.onBackPressed()
         }
