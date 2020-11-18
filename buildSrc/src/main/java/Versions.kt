@@ -22,7 +22,6 @@ object Versions {
 
     const val okhttp = "4.9.0"
     const val retrofit = "2.9.0"
-    const val coroutineCallAdapter = "0.9.2"
     const val kotlinxSerialization = "0.20.0"
 
     const val timber = "4.7.1"

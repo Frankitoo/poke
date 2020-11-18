@@ -9,7 +9,7 @@ object WindowHelper {
         return (screenWidth - ((columns + 1) * spacing)) / columns
     }
 
-    fun getScreenWidth(context: Context): Int {
+    private fun getScreenWidth(context: Context): Int {
         return getMetrics(context).widthPixels
     }
 
