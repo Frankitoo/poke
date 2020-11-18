@@ -7,9 +7,9 @@ import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.frankito.presentation.R
+import com.frankito.presentation.base.BaseFragment
 import com.frankito.presentation.features.pokemondetails.PokemonDetailsFragment
 import com.frankito.presentation.features.pokemonlist.PokemonListFragment
-import com.frankito.presentation.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_pokemon_pager.*
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
@@ -36,12 +36,13 @@ class PokemonPagerFragment : BaseFragment<PokemonPagerViewModel>() {
 
         viewModel.currentItemLiveData.observe(this) {
             viewPager.currentItem = it
-            viewPager.isUserInputEnabled = it == 1
+            setViewPagerUserInputEnabled(it)
         }
 
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
+                setViewPagerUserInputEnabled(position)
                 viewModel.onPageChanged(position)
             }
         })
@@ -49,6 +50,10 @@ class PokemonPagerFragment : BaseFragment<PokemonPagerViewModel>() {
         onBackPressedCallback = requireActivity().onBackPressedDispatcher.addCallback(this) {
             viewModel.onBackPressed()
         }
+    }
+
+    private fun setViewPagerUserInputEnabled(position: Int) {
+        viewPager.isUserInputEnabled = position == 1
     }
 
     private inner class PokemonPagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
