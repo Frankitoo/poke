@@ -48,7 +48,7 @@ class PokemonListFragment : BaseFragment<PokemonListViewModel>() {
 
         lifecycleScope.launchWhenCreated {
             pokemonListAdapter.loadStateFlow.collectLatest { loadStates ->
-                swipe_refresh.isRefreshing = loadStates.refresh is LoadState.Loading
+                swipe_refresh?.isRefreshing = loadStates.refresh is LoadState.Loading
             }
         }
 

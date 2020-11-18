@@ -20,6 +20,7 @@
             android:layout_height="match_parent"
             android:clipToPadding="false"
             android:paddingEnd="10dp"
+            android:paddingBottom="4dp"
             tools:itemCount="10"
             android:splitMotionEvents="false"
             tools:listitem="@layout/item_pokemon"
