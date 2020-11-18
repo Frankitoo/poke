@@ -35,7 +35,7 @@ class PokemonPagerFragment : BaseFragment<PokemonPagerViewModel>() {
         viewPager.isUserInputEnabled = false
 
         viewModel.currentItemLiveData.observe(this) {
-            viewPager.currentItem = it
+            viewPager.setCurrentItem(it, true)
             setViewPagerUserInputEnabled(it)
         }
 
