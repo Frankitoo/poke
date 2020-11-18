@@ -40,7 +40,7 @@ class PokemonRemoteMediator(
 
             coroutineScope.launch(errorHandler) {
                 // If loadKey is zero than it should call refresh
-                val response = pokemonApi.getPokemonList(
+                val response = pokemonApi.fetchPokemonList(
                     limit = state.config.pageSize,
                     offset = loadKey ?: 0,
                 )

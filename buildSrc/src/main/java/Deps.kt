@@ -9,8 +9,6 @@ sealed class Deps {
 
         const val timber = "com.jakewharton.timber:timber:${Versions.timber}"
 
-        const val tedPermission = "gun0912.ted:tedpermission:${Versions.tedPermission}"
-
         const val glide = "com.github.bumptech.glide:glide:${Versions.glide}"
     }
 

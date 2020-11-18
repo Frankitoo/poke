@@ -69,10 +69,24 @@ dependencies {
 
     implementation(Deps.timber)
     implementation(Deps.threeTen)
-    implementation(Deps.tedPermission)
 
     implementation(Koin.core)
     implementation(Koin.viewModel)
 
     implementation(Deps.UI.lottie)
+
+    // Test
+    testImplementation(Test.kotlin)
+    testImplementation(Test.coroutines)
+    testImplementation(Test.junit)
+    testImplementation(Test.mockk)
+    testImplementation(Test.truth)
+    testImplementation(Test.robolectric)
+    testImplementation(Test.timber)
+
+    testImplementation(Test.AndroidX.core)
+    testImplementation(Test.AndroidX.runner)
+    testImplementation(Test.AndroidX.rules)
+    testImplementation(Test.AndroidX.androidJunit)
+    testImplementation(Test.AndroidX.androidTruth)
 }

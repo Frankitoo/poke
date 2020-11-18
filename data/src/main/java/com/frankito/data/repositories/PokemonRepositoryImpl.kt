@@ -28,7 +28,7 @@ class PokemonRepositoryImpl(
         ).flow
     }
 
-    override suspend fun getPokemon(name: String): PokemonDetail {
-        return pokemonApi.getPokemonDetails(name).toDomainModel()
+    override suspend fun fetchPokemon(name: String): PokemonDetail {
+        return pokemonApi.fetchPokemonDetails(name).toDomainModel()
     }
 }

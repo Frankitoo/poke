@@ -30,5 +30,15 @@ object Versions {
     const val lottie = "3.5.0"
     const val glide = "4.11.0"
 
-    const val tedPermission = "2.2.0"
+    const val junit = "4.12"
+    const val mockk = "1.9.3"
+    const val truth = "1.1"
+    const val testTimber = "1.0.1"
+    const val coreKtx = "1.2.0"
+    const val coreTesting = "2.1.0"
+    const val runner = "1.3.0"
+    const val robolectric = "4.3"
+    const val rules = "1.3.0"
+    const val junitKtx = "1.1.1"
+    const val truthExt = "1.2.0"
 }

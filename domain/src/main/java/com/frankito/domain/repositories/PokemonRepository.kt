@@ -7,5 +7,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface PokemonRepository {
     fun fetchPokemons() : Flow<PagingData<PokemonListItem>>
-    suspend fun getPokemon(name: String) : PokemonDetail
+    suspend fun fetchPokemon(name: String) : PokemonDetail
 }

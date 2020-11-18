@@ -23,7 +23,7 @@ class PokemonDetailsViewModel(
     fun fetchPokemon(pokemonName: String) {
         loadingMutableLiveData.value = true
         viewModelScope.launch(errorHandler) {
-            val pokemonDetail = pokemonRepository.getPokemon(pokemonName)
+            val pokemonDetail = pokemonRepository.fetchPokemon(pokemonName)
             pokemonDetailMutableLiveData.postValue(pokemonDetail)
         }.invokeOnCompletion {
             loadingMutableLiveData.value = false
