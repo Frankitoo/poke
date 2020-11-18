@@ -3,7 +3,6 @@ package com.frankito.presentation.features.pokemondetails
 import android.content.res.ColorStateList
 import android.view.View
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
@@ -12,11 +11,13 @@ import com.frankito.domain.models.pokemon.PokemonDetail
 import com.frankito.presentation.R
 import com.frankito.presentation.base.BaseFragment
 import com.frankito.presentation.features.pokemonpager.PokemonPagerViewModel
+import com.frankito.presentation.utils.fadeOut
 import com.frankito.presentation.utils.getTypeColor
 import com.frankito.presentation.utils.startRotatedAnimation
 import kotlinx.android.synthetic.main.fragment_pokemon_details.*
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
+
 
 class PokemonDetailsFragment : BaseFragment<PokemonDetailsViewModel>() {
 
@@ -50,7 +51,12 @@ class PokemonDetailsFragment : BaseFragment<PokemonDetailsViewModel>() {
         }
 
         viewModel.loadingLiveData.observe(this) {
-            loaderLayout.isVisible = it
+            if (it) {
+                loaderLayout.visibility = View.VISIBLE
+                loaderLayout.alpha = 1.0f
+            } else {
+                loaderLayout.fadeOut()
+            }
             loaderImage.startRotatedAnimation(requireContext())
         }
     }
