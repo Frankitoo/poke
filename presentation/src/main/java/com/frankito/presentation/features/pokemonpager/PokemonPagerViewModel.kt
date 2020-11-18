@@ -9,7 +9,7 @@ import com.frankito.domain.services.BackButtonService
 import com.frankito.domain.services.ConnectionService
 import com.frankito.domain.services.ToastService
 import com.frankito.presentation.R
-import com.frankito.presentation.common.BaseViewModel
+import com.frankito.presentation.base.BaseViewModel
 
 class PokemonPagerViewModel(
     private val toastService: ToastService,

@@ -1,4 +1,4 @@
-package com.frankito.presentation.common
+package com.frankito.presentation.base
 
 import android.os.Bundle
 import androidx.annotation.CallSuper

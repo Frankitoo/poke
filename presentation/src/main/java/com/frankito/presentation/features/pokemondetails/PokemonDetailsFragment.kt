@@ -11,7 +11,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
 import com.frankito.presentation.R
 import com.frankito.presentation.features.pokemonpager.PokemonPagerViewModel
-import com.frankito.presentation.ui.BaseFragment
+import com.frankito.presentation.base.BaseFragment
 import com.frankito.presentation.utils.getTypeColor
 import kotlinx.android.synthetic.main.fragment_pokemon_details.*
 import org.koin.android.viewmodel.ext.android.sharedViewModel

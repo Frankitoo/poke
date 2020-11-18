@@ -13,7 +13,6 @@ import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
 import com.frankito.domain.models.pokemon.PokemonListItem
 import com.frankito.presentation.R
 import com.frankito.presentation.features.pokemonlist.PokemonListFragment.Companion.SPAN_COUNT
-import com.frankito.presentation.utils.PokemonListItemDiffUtilCallback
 import com.frankito.presentation.utils.WindowHelper
 import com.frankito.presentation.utils.debounce.setOnClickListener
 import kotlinx.android.synthetic.main.item_pokemon.view.*
@@ -21,7 +20,7 @@ import kotlinx.android.synthetic.main.item_pokemon.view.*
 
 class PokemonListAdapter :
     PagingDataAdapter<PokemonListItem, PokemonListAdapter.PokemonViewHolder>(
-        PokemonListItemDiffUtilCallback()
+        PokemonListDiffUtilCallback()
     ) {
     var onClickListener: ((PokemonListItem) -> Unit)? = null
 

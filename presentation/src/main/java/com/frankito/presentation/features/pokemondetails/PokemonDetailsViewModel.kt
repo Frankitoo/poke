@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.frankito.domain.error.ErrorHandler
 import com.frankito.domain.models.pokemon.PokemonDetail
 import com.frankito.domain.repositories.PokemonRepository
-import com.frankito.presentation.common.BaseViewModel
+import com.frankito.presentation.base.BaseViewModel
 import kotlinx.coroutines.launch
 
 class PokemonDetailsViewModel(

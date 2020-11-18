@@ -9,7 +9,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.frankito.presentation.R
 import com.frankito.presentation.features.pokemondetails.PokemonDetailsFragment
 import com.frankito.presentation.features.pokemonlist.PokemonListFragment
-import com.frankito.presentation.ui.BaseFragment
+import com.frankito.presentation.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_pokemon_pager.*
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 

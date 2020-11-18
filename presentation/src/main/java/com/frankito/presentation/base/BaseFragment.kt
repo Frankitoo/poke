@@ -1,4 +1,4 @@
-package com.frankito.presentation.ui
+package com.frankito.presentation.base
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -9,7 +9,6 @@ import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.frankito.presentation.common.BaseViewModel
 
 abstract class BaseFragment<VM : BaseViewModel> : Fragment() {
 
