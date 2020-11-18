@@ -15,11 +15,14 @@ import com.frankito.presentation.R
 import com.frankito.presentation.features.pokemonlist.PokemonListFragment.Companion.SPAN_COUNT
 import com.frankito.presentation.utils.PokemonListItemDiffUtilCallback
 import com.frankito.presentation.utils.WindowHelper
+import com.frankito.presentation.utils.debounce.setOnClickListener
 import kotlinx.android.synthetic.main.item_pokemon.view.*
 
 
 class PokemonListAdapter :
-    PagingDataAdapter<PokemonListItem, PokemonListAdapter.PokemonViewHolder>(PokemonListItemDiffUtilCallback()) {
+    PagingDataAdapter<PokemonListItem, PokemonListAdapter.PokemonViewHolder>(
+        PokemonListItemDiffUtilCallback()
+    ) {
     var onClickListener: ((PokemonListItem) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PokemonViewHolder {
@@ -40,7 +43,7 @@ class PokemonListAdapter :
 
         val item = getItem(position)
 
-        holder.itemView.setOnClickListener {
+        holder.itemView.setOnClickListener(true) {
             item?.let {
                 onClickListener?.invoke(item)
             }
