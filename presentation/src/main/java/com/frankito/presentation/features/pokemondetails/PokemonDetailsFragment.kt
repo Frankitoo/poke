@@ -2,17 +2,18 @@ package com.frankito.presentation.features.pokemondetails
 
 import android.content.res.ColorStateList
 import android.view.View
-import android.view.animation.AnimationUtils
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
+import com.frankito.domain.models.pokemon.PokemonDetail
 import com.frankito.presentation.R
-import com.frankito.presentation.features.pokemonpager.PokemonPagerViewModel
 import com.frankito.presentation.base.BaseFragment
+import com.frankito.presentation.features.pokemonpager.PokemonPagerViewModel
 import com.frankito.presentation.utils.getTypeColor
+import com.frankito.presentation.utils.startRotatedAnimation
 import kotlinx.android.synthetic.main.fragment_pokemon_details.*
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -34,19 +35,6 @@ class PokemonDetailsFragment : BaseFragment<PokemonDetailsViewModel>() {
         tvSecondaryType.visibility = View.GONE
 
         viewModel.pokemonDetailLiveData.observe(this) { pokemonDetail ->
-            tvName.text = pokemonDetail.name
-
-            val heightString =
-                "${String.format("%.1f", pokemonDetail.height.value)} ${pokemonDetail.height.unit}"
-            tvHeightValue.text = heightString
-
-            val weightString = "${pokemonDetail.weight.value} ${pokemonDetail.weight.unit}"
-            tvWeightValue.text = weightString
-
-            val experienceString =
-                "${pokemonDetail.experience.value} ${pokemonDetail.experience.unit}"
-            tvExperienceValue.text = experienceString
-
             val factory = DrawableCrossFadeFactory.Builder().setCrossFadeEnabled(true).build()
             Glide.with(imageView.context)
                 .load(pokemonDetail.imageUrl)
@@ -55,17 +43,31 @@ class PokemonDetailsFragment : BaseFragment<PokemonDetailsViewModel>() {
                 .transition(DrawableTransitionOptions.withCrossFade(factory))
                 .into(imageView)
 
+
+            setupStats(pokemonDetail)
             setupTypeViews(pokemonDetail.types)
             setupAbilities(pokemonDetail.abilities)
         }
 
         viewModel.loadingLiveData.observe(this) {
             loaderLayout.isVisible = it
-            val rotation =
-                AnimationUtils.loadAnimation(requireContext(), R.anim.rotate_indefinitely)
-            rotation.fillAfter = true
-            loaderImage.startAnimation(rotation)
+            loaderImage.startRotatedAnimation(requireContext())
         }
+    }
+
+    private fun setupStats(pokemonDetail: PokemonDetail) {
+        tvName.text = pokemonDetail.name
+
+        val heightString =
+            "${String.format("%.1f", pokemonDetail.height.value)} ${pokemonDetail.height.unit}"
+        tvHeightValue.text = heightString
+
+        val weightString = "${pokemonDetail.weight.value} ${pokemonDetail.weight.unit}"
+        tvWeightValue.text = weightString
+
+        val experienceString =
+            "${pokemonDetail.experience.value} ${pokemonDetail.experience.unit}"
+        tvExperienceValue.text = experienceString
     }
 
     private fun setupTypeViews(types: List<String>) {

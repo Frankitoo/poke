@@ -1,5 +1,6 @@
 package com.frankito.presentation.features.pokemonlist
 
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
@@ -8,6 +9,7 @@ import com.frankito.presentation.R
 import com.frankito.presentation.base.BaseFragment
 import com.frankito.presentation.features.pokemonpager.PokemonPagerViewModel
 import com.frankito.presentation.utils.GridSpacingItemDecoration
+import com.frankito.presentation.utils.startRotatedAnimation
 import kotlinx.android.synthetic.main.fragment_pokemon_list.*
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.android.viewmodel.ext.android.sharedViewModel
@@ -50,6 +52,11 @@ class PokemonListFragment : BaseFragment<PokemonListViewModel>() {
             header = PokemonLoadingAdapter { pokemonListAdapter.retry() },
             footer = PokemonLoadingAdapter { pokemonListAdapter.retry() }
         )
+
+        viewModel.loadingLiveData.observe(this) {
+            loaderLayout.isVisible = it
+            loaderImage.startRotatedAnimation(requireContext())
+        }
 
         lifecycleScope.launchWhenCreated {
             pokemonListAdapter.loadStateFlow.collectLatest { loadStates ->

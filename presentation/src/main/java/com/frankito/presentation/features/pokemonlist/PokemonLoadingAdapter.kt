@@ -3,7 +3,6 @@ package com.frankito.presentation.features.pokemonlist
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -12,6 +11,7 @@ import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.frankito.presentation.R
+import com.frankito.presentation.utils.startRotatedAnimation
 import kotlinx.android.synthetic.main.item_loading_state.view.*
 
 class PokemonLoadingAdapter(private val retry: () -> Unit) :
@@ -37,10 +37,7 @@ class PokemonLoadingAdapter(private val retry: () -> Unit) :
             }
             if (loadState is LoadState.Loading) {
                 pokeBallLoaderImage.isVisible = true
-                val rotation =
-                    AnimationUtils.loadAnimation(itemView.context, R.anim.rotate_indefinitely)
-                rotation.fillAfter = true
-                pokeBallLoaderImage.startAnimation(rotation)
+                pokeBallLoaderImage.startRotatedAnimation(itemView.context)
             }
             tvErrorMessage.isVisible = loadState !is LoadState.Loading
             btnRetry.isVisible = loadState !is LoadState.Loading
