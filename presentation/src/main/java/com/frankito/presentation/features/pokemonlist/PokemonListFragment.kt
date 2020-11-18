@@ -1,6 +1,5 @@
 package com.frankito.presentation.features.pokemonlist
 
-import android.view.View
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
@@ -8,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.frankito.presentation.R
 import com.frankito.presentation.ui.BaseFragment
 import com.frankito.presentation.utils.GridSpacingItemDecoration
-import kotlinx.android.synthetic.main.fragment_pokemon_list.view.*
+import kotlinx.android.synthetic.main.fragment_pokemon_list.*
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -31,25 +30,25 @@ class PokemonListFragment : BaseFragment<PokemonListViewModel>() {
         )
     }
 
-    override fun setupViews(view: View) {
-        initAdapter(view)
+    override fun setupViews() {
+        initAdapter()
 
-        view.swipe_refresh.setOnRefreshListener { pokemonListAdapter.refresh() }
+        swipe_refresh.setOnRefreshListener { pokemonListAdapter.refresh() }
     }
 
-    private fun initAdapter(view: View) {
+    private fun initAdapter() {
         pokemonListAdapter.onClickListener = { item -> viewModel.onPokemonSelected(item) }
 
-        view.rvPokemons.addItemDecoration(gridDecoration)
-        view.rvPokemons.layoutManager = GridLayoutManager(activity, SPAN_COUNT)
-        view.rvPokemons.adapter = pokemonListAdapter.withLoadStateHeaderAndFooter(
+        rvPokemons.addItemDecoration(gridDecoration)
+        rvPokemons.layoutManager = GridLayoutManager(activity, SPAN_COUNT)
+        rvPokemons.adapter = pokemonListAdapter.withLoadStateHeaderAndFooter(
             header = PokemonLoadingAdapter { pokemonListAdapter.retry() },
             footer = PokemonLoadingAdapter { pokemonListAdapter.retry() }
         )
 
         lifecycleScope.launchWhenCreated {
             pokemonListAdapter.loadStateFlow.collectLatest { loadStates ->
-                view.swipe_refresh.isRefreshing = loadStates.refresh is LoadState.Loading
+                swipe_refresh.isRefreshing = loadStates.refresh is LoadState.Loading
             }
         }
 

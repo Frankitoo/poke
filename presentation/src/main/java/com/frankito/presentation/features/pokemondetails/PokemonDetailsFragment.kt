@@ -13,7 +13,6 @@ import com.frankito.presentation.R
 import com.frankito.presentation.ui.BaseFragment
 import com.frankito.presentation.utils.getTypeColor
 import kotlinx.android.synthetic.main.fragment_pokemon_details.*
-import kotlinx.android.synthetic.main.fragment_pokemon_details.view.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class PokemonDetailsFragment : BaseFragment<PokemonDetailsViewModel>() {
@@ -22,11 +21,11 @@ class PokemonDetailsFragment : BaseFragment<PokemonDetailsViewModel>() {
 
     override val viewModel: PokemonDetailsViewModel by viewModel()
 
-    override fun setupViews(view: View) {
+    override fun setupViews() {
         viewModel.fetchPokemon()
 
-        view.tvPrimaryType.visibility = View.GONE
-        view.tvSecondaryType.visibility = View.GONE
+        tvPrimaryType.visibility = View.GONE
+        tvSecondaryType.visibility = View.GONE
 
         viewModel.pokemonDetailLiveData.observe(this) { pokemonDetail ->
             tvName.text = pokemonDetail.name
@@ -86,11 +85,13 @@ class PokemonDetailsFragment : BaseFragment<PokemonDetailsViewModel>() {
 
     private fun setupAbilities(abilities: List<String>) {
         if (abilities.isNotEmpty()) {
+            tvAbilities.text = getString(R.string.abilities)
             rvAbilities.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             rvAbilities.adapter = AbilityAdapter(abilities)
             rvAbilities.visibility = View.VISIBLE
         } else {
+            tvAbilities.text = getString(R.string.no_abilities)
             rvAbilities.visibility = View.GONE
         }
     }

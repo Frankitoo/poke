@@ -42,10 +42,10 @@ abstract class BaseFragment<VM : BaseViewModel> : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.registerNavController(findNavController())
-        setupViews(view)
+        setupViews()
     }
 
-    protected open fun setupViews(view: View) {
+    protected open fun setupViews() {
         // No-op implementation
     }
 }
