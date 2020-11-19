@@ -4,7 +4,7 @@ import com.frankito.domain.models.toast.ToastData
 import com.frankito.domain.services.BackButtonService
 import com.frankito.domain.services.ToastService
 import com.frankito.presentation.base.BaseViewModel
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.collect
 
 class MainViewModel(
     toastService: ToastService,
@@ -12,10 +12,10 @@ class MainViewModel(
 ) : BaseViewModel() {
 
     val toast by liveData<ToastData> {
-        toastService.toastMessage.collectLatest { emit(it) }
+        toastService.toastMessage.collect { emit(it) }
     }
 
     val backButtonVisibility by liveData<Boolean> {
-        backButtonService.isVisible.collectLatest { emit(it) }
+        backButtonService.isVisible.collect { emit(it) }
     }
 }

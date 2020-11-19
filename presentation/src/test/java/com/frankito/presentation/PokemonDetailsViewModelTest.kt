@@ -1,23 +1,22 @@
 package com.frankito.presentation
 
-import androidx.lifecycle.Observer
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.frankito.domain.error.ErrorHandler
-import com.frankito.domain.models.pokemon.PokemonDetail
 import com.frankito.domain.models.pokemon.samples.Pokemons
 import com.frankito.domain.repositories.PokemonRepository
+import com.frankito.presentation.features.pokemondetails.PokemonDetailViewState
 import com.frankito.presentation.features.pokemondetails.PokemonDetailsViewModel
-import com.google.common.truth.Truth
-import io.mockk.*
-import io.mockk.impl.annotations.MockK
+import io.mockk.MockKAnnotations
+import io.mockk.clearAllMocks
+import io.mockk.coEvery
+import io.mockk.coVerifyOrder
 import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.TestCoroutineExceptionHandler
-import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.setMain
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.*
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -36,12 +35,6 @@ class PokemonDetailsViewModelTest {
 
     @RelaxedMockK
     lateinit var pokemonRepository: PokemonRepository
-
-    @MockK
-    lateinit var loadingObserver: Observer<Boolean>
-
-    @MockK
-    lateinit var pokemonObserver: Observer<PokemonDetail>
 
     @ExperimentalCoroutinesApi
     @Before
@@ -62,30 +55,28 @@ class PokemonDetailsViewModelTest {
     @ExperimentalCoroutinesApi
     fun `Fetch pokemon details should start loading, fetch data and stop loading`() {
         //given
-
-        val loading = mutableListOf<Boolean>()
-        val pokemon = slot<PokemonDetail>()
-
         val model = createModel()
+
+        val collector = mockCollector<PokemonDetailViewState>()
 
         coEvery { pokemonRepository.fetchPokemon(any()) } returns Pokemons.pokemonDetailModel
 
-        every { pokemonObserver.onChanged(capture(pokemon)) } returns Unit
-        every { loadingObserver.onChanged(capture(loading)) } returns Unit
-
         //when
-        model.loadingLiveData.observeForever(loadingObserver)
-        model.pokemonDetailLiveData.observeForever(pokemonObserver)
-
-        model.fetchPokemon("balbasaur")
-
-        testDispatcher.advanceUntilIdle()
+        testDispatcher.runBlockingTest {
+            val job = launch {
+                model.pokemonDetailViewState.collect { collector.emit(it) }
+            }
+            model.fetchPokemon("balbasaur")
+            advanceUntilIdle()
+            job.cancel()
+        }
 
         //then
-        Truth.assertThat(loading.isNotEmpty()).isTrue()
-        Truth.assertThat(loading.first()).isTrue()
-        Truth.assertThat(pokemon.captured).isEqualTo(Pokemons.pokemonDetailModel)
-        Truth.assertThat(loading.last()).isFalse()
+        coVerifyOrder {
+            collector.emit(PokemonDetailViewState(true, null))
+            collector.emit(PokemonDetailViewState(true, Pokemons.pokemonDetailModel))
+            collector.emit(PokemonDetailViewState(false, Pokemons.pokemonDetailModel))
+        }
     }
 
     private fun createModel(): PokemonDetailsViewModel = PokemonDetailsViewModel(

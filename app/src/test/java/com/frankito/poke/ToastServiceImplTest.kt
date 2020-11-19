@@ -8,7 +8,7 @@ import io.mockk.coVerifyOrder
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.FlowCollector
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.junit.Rule
 import org.junit.Test
@@ -37,7 +37,7 @@ class ToastServiceImplTest {
 
         //when
         rule.runBlockingTest {
-            val job = launch { service.toastMessage.collectLatest { collector.emit(it) } }
+            val job = launch { service.toastMessage.collect { collector.emit(it) } }
 
             advanceUntilIdle()
             service.showToast(shortMessageData)

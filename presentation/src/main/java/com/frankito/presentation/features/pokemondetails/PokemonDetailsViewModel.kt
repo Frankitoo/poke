@@ -1,12 +1,13 @@
 package com.frankito.presentation.features.pokemondetails
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.frankito.domain.error.ErrorHandler
-import com.frankito.domain.models.pokemon.PokemonDetail
 import com.frankito.domain.repositories.PokemonRepository
 import com.frankito.presentation.base.BaseViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class PokemonDetailsViewModel(
@@ -14,19 +15,34 @@ class PokemonDetailsViewModel(
     private val errorHandler: ErrorHandler,
 ) : BaseViewModel() {
 
-    private val pokemonDetailMutableLiveData: MutableLiveData<PokemonDetail> = MutableLiveData()
-    val pokemonDetailLiveData: LiveData<PokemonDetail> = pokemonDetailMutableLiveData
+    private val intentFlow = MutableSharedFlow<PokemonDetailIntents>(extraBufferCapacity = 64)
 
-    private val loadingMutableLiveData: MutableLiveData<Boolean> = MutableLiveData()
-    val loadingLiveData: LiveData<Boolean> = loadingMutableLiveData
+    private val stateFlow = MutableStateFlow(PokemonDetailViewState(true, null))
+
+    val pokemonDetailViewState: StateFlow<PokemonDetailViewState>
+        get() = stateFlow
+
+    suspend fun processIntent(intent: PokemonDetailIntents) = intentFlow.emit(intent)
+
+    fun bindIntents() {
+        viewModelScope.launch {
+            intentFlow.collect { intent ->
+                when (intent) {
+                    is PokemonDetailIntents.FetchPokemon -> {
+                        fetchPokemon(intent.name)
+                    }
+                }
+            }
+        }
+    }
 
     fun fetchPokemon(pokemonName: String) {
-        loadingMutableLiveData.value = true
+        stateFlow.value = stateFlow.value.copy(isLoading = true)
         viewModelScope.launch(errorHandler) {
             val pokemonDetail = pokemonRepository.fetchPokemon(pokemonName)
-            pokemonDetailMutableLiveData.postValue(pokemonDetail)
+            stateFlow.value = stateFlow.value.copy(pokemonDetail = pokemonDetail)
         }.invokeOnCompletion {
-            loadingMutableLiveData.value = false
+            stateFlow.value = stateFlow.value.copy(isLoading = false)
         }
     }
 }

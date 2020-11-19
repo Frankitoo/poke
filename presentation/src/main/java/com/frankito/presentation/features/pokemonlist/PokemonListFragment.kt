@@ -6,10 +6,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.frankito.presentation.R
 import com.frankito.presentation.base.BaseFragment
+import com.frankito.presentation.features.pokemonpager.PokemonPagerIntent
 import com.frankito.presentation.features.pokemonpager.PokemonPagerViewModel
 import com.frankito.presentation.utils.GridSpacingItemDecoration
 import kotlinx.android.synthetic.main.fragment_pokemon_list.*
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.collect
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -42,7 +43,11 @@ class PokemonListFragment : BaseFragment<PokemonListViewModel>() {
 
     private fun initAdapter() {
         pokemonListAdapter.onClickListener =
-            { item -> sharedPagerViewModel.onPokemonSelected(item) }
+            { item ->
+                lifecycleScope.launchWhenCreated {
+                    sharedPagerViewModel.processIntent(PokemonPagerIntent.PokemonSelected(item))
+                }
+            }
 
         rvPokemons.addItemDecoration(gridDecoration)
         rvPokemons.layoutManager = GridLayoutManager(activity, SPAN_COUNT)
@@ -52,13 +57,13 @@ class PokemonListFragment : BaseFragment<PokemonListViewModel>() {
         )
 
         lifecycleScope.launchWhenCreated {
-            pokemonListAdapter.loadStateFlow.collectLatest { loadStates ->
+            pokemonListAdapter.loadStateFlow.collect { loadStates ->
                 swipe_refresh?.isRefreshing = loadStates.refresh is LoadState.Loading
             }
         }
 
         lifecycleScope.launchWhenCreated {
-            viewModel.fetchPokemons().collectLatest { pagingData ->
+            viewModel.fetchPokemons().collect { pagingData ->
                 pokemonListAdapter.submitData(pagingData)
             }
         }
