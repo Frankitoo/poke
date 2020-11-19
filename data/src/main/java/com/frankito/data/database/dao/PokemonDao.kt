@@ -13,15 +13,6 @@ interface PokemonDao {
     @Query("SELECT * FROM PokemonListItem ORDER BY id ASC")
     fun getPokemons(): PagingSource<Int, PokemonListItem>
 
-    @Query("SELECT * FROM PokemonListItem WHERE id = :id")
-    fun getPokemon(id: Long): Flow<PokemonListItem?>
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(item: PokemonListItem)
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(items: List<PokemonListItem>)
-
-    @Query("DELETE FROM PokemonListItem")
-    suspend fun deleteAll()
 }

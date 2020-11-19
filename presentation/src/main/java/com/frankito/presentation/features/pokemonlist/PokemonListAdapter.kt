@@ -32,7 +32,7 @@ class PokemonListAdapter :
 
         val lp = view.layoutParams
         lp.width = itemWidth
-        lp.height = itemWidth + WindowHelper.pxFromDp(parent.context, 30)
+        lp.height = itemWidth + WindowHelper.pxFromDp(parent.context, 40)
 
         view.layoutParams = lp
         return PokemonViewHolder(view)

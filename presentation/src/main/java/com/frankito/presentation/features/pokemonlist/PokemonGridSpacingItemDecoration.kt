@@ -1,10 +1,10 @@
-package com.frankito.presentation.utils
+package com.frankito.presentation.features.pokemonlist
 
 import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
-class GridSpacingItemDecoration(private val spanCount: Int,
+class PokemonGridSpacingItemDecoration(private val spanCount: Int,
                                 private val spacing: Int,
                                 private val includeEdge: Boolean = false)
     : RecyclerView.ItemDecoration() {
