@@ -67,10 +67,11 @@ class PokemonDetailsFragment : BaseFragment<PokemonDetailsViewModel>() {
         } else {
             loaderLayout.fadeOut()
         }
-        loaderImage.startRotatedAnimation(requireContext())
     }
 
     private fun onPokemonDetailChanged(pokemonDetail: PokemonDetail) {
+        loaderImage.startRotatedAnimation(requireContext())
+
         val factory = DrawableCrossFadeFactory.Builder().setCrossFadeEnabled(true).build()
         Glide.with(imageView.context)
             .load(pokemonDetail.imageUrl)

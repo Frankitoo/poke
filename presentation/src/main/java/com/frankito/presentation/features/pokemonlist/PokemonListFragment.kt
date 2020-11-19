@@ -10,7 +10,7 @@ import com.frankito.presentation.features.pokemonpager.PokemonPagerIntent
 import com.frankito.presentation.features.pokemonpager.PokemonPagerViewModel
 import com.frankito.presentation.utils.GridSpacingItemDecoration
 import kotlinx.android.synthetic.main.fragment_pokemon_list.*
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -57,13 +57,13 @@ class PokemonListFragment : BaseFragment<PokemonListViewModel>() {
         )
 
         lifecycleScope.launchWhenCreated {
-            pokemonListAdapter.loadStateFlow.collect { loadStates ->
+            pokemonListAdapter.loadStateFlow.collectLatest { loadStates ->
                 swipe_refresh?.isRefreshing = loadStates.refresh is LoadState.Loading
             }
         }
 
         lifecycleScope.launchWhenCreated {
-            viewModel.fetchPokemons().collect { pagingData ->
+            viewModel.fetchPokemons().collectLatest { pagingData ->
                 pokemonListAdapter.submitData(pagingData)
             }
         }
