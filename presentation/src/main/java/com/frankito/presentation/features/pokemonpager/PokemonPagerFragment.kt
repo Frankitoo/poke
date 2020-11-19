@@ -13,6 +13,7 @@ import com.frankito.presentation.base.BaseFragment
 import com.frankito.presentation.features.pokemondetails.PokemonDetailsFragment
 import com.frankito.presentation.features.pokemonlist.PokemonListFragment
 import kotlinx.android.synthetic.main.fragment_pokemon_pager.*
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.android.viewmodel.ext.android.sharedViewModel
@@ -40,7 +41,10 @@ class PokemonPagerFragment : BaseFragment<PokemonPagerViewModel>() {
 
         viewModel.bindIntents()
         viewModel.pagerViewState
-            .onEach { state -> handleState(state) }
+            .onEach { state ->
+                delay(200L)
+                handleState(state)
+            }
             .launchIn(lifecycleScope)
 
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
