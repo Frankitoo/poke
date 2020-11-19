@@ -42,7 +42,7 @@ class PokemonPagerFragment : BaseFragment<PokemonPagerViewModel>() {
         viewModel.bindIntents()
         viewModel.pagerViewState
             .onEach { state ->
-                delay(200L)
+                delay(150L)
                 handleState(state)
             }
             .launchIn(lifecycleScope)
