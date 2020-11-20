@@ -1,10 +1,12 @@
 package com.frankito.presentation.features.pokemondetails
 
 import android.content.res.ColorStateList
+import android.graphics.PorterDuff
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
@@ -75,10 +77,9 @@ class PokemonDetailsFragment : BaseFragment<PokemonDetailsViewModel>() {
         Glide.with(imageView.context)
             .load(pokemonDetail.imageUrl)
             .fitCenter()
-            .placeholder(R.drawable.pokeball)
+            .placeholder(getCircularProgressDrawable())
             .transition(DrawableTransitionOptions.withCrossFade(factory))
             .into(imageView)
-
 
         setupStats(pokemonDetail)
         setupTypeViews(pokemonDetail.types)
@@ -132,5 +133,19 @@ class PokemonDetailsFragment : BaseFragment<PokemonDetailsViewModel>() {
             tvAbilities.text = getString(R.string.no_abilities)
             rvAbilities.visibility = View.GONE
         }
+    }
+
+    private fun getCircularProgressDrawable(): CircularProgressDrawable {
+        val circularProgressDrawable = CircularProgressDrawable(requireContext())
+        circularProgressDrawable.strokeWidth = 12f
+        circularProgressDrawable.centerRadius = 80f
+        circularProgressDrawable.setColorFilter(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.pokemon_blue
+            ), PorterDuff.Mode.SRC_ATOP
+        )
+        circularProgressDrawable.start()
+        return circularProgressDrawable
     }
 }
