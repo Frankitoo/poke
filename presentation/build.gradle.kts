@@ -55,9 +55,7 @@ dependencies {
     implementation(Koin.core)
     implementation(Koin.viewModel)
 
-    implementation(Deps.UI.lottie)
     implementation(Deps.glide)
-
     // Test
     testImplementation(Test.kotlin)
     testImplementation(Test.coroutines)

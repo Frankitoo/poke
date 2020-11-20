@@ -68,7 +68,6 @@ dependencies {
     implementation(AndroidX.Navigation.navigationFragment)
 
     implementation(Deps.timber)
-    implementation(Deps.threeTen)
 
     implementation(Koin.core)
     implementation(Koin.viewModel)
