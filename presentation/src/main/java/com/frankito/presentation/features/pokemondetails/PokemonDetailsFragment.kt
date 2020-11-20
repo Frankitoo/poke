@@ -1,12 +1,10 @@
 package com.frankito.presentation.features.pokemondetails
 
 import android.content.res.ColorStateList
-import android.graphics.PorterDuff
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
@@ -16,6 +14,7 @@ import com.frankito.presentation.R
 import com.frankito.presentation.base.BaseFragment
 import com.frankito.presentation.features.pokemonpager.PokemonPagerViewModel
 import com.frankito.presentation.utils.fadeOut
+import com.frankito.presentation.utils.getCircularProgressDrawable
 import com.frankito.presentation.utils.getTypeColor
 import com.frankito.presentation.utils.startRotatedAnimation
 import kotlinx.android.synthetic.main.fragment_pokemon_details.*
@@ -77,7 +76,7 @@ class PokemonDetailsFragment : BaseFragment<PokemonDetailsViewModel>() {
         Glide.with(imageView.context)
             .load(pokemonDetail.imageUrl)
             .fitCenter()
-            .placeholder(getCircularProgressDrawable())
+            .placeholder(getCircularProgressDrawable(requireContext()))
             .transition(DrawableTransitionOptions.withCrossFade(factory))
             .into(imageView)
 
@@ -133,19 +132,5 @@ class PokemonDetailsFragment : BaseFragment<PokemonDetailsViewModel>() {
             tvAbilities.text = getString(R.string.no_abilities)
             rvAbilities.visibility = View.GONE
         }
-    }
-
-    private fun getCircularProgressDrawable(): CircularProgressDrawable {
-        val circularProgressDrawable = CircularProgressDrawable(requireContext())
-        circularProgressDrawable.strokeWidth = 12f
-        circularProgressDrawable.centerRadius = 80f
-        circularProgressDrawable.setColorFilter(
-            ContextCompat.getColor(
-                requireContext(),
-                R.color.pokemon_blue
-            ), PorterDuff.Mode.SRC_ATOP
-        )
-        circularProgressDrawable.start()
-        return circularProgressDrawable
     }
 }
