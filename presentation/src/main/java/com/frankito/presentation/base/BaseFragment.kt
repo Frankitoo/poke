@@ -32,9 +32,9 @@ abstract class BaseFragment<VM : BaseViewModel> : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val mainView = inflater.inflate(layoutRes, container, false)
-        mainView.setOnTouchListener { _, _ -> true }
-        return mainView
+        return inflater.inflate(layoutRes, container, false).apply {
+            setOnTouchListener { _, _ -> true }
+        }
     }
 
     @CallSuper

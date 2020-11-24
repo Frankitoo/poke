@@ -1,6 +1,5 @@
 package com.frankito.poke.ui
 
-import android.content.pm.ActivityInfo
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -18,7 +17,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.android.viewmodel.ext.android.viewModel
-
 
 class MainActivity : AppCompatActivity() {
 
@@ -57,8 +55,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupWindow() {
-        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)

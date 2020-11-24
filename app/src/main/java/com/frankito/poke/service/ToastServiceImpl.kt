@@ -15,11 +15,15 @@ class ToastServiceImpl : ToastService {
     @ExperimentalCoroutinesApi
     @FlowPreview
     override val toastMessage: Flow<ToastData>
-        get() = channel.openSubscription().consumeAsFlow().drop(1).debounce(1000L)
+        get() = channel.openSubscription().consumeAsFlow().drop(1).debounce(debounceTimeInMillis)
             .filterNotNull()
 
     @ExperimentalCoroutinesApi
     override fun showToast(toastData: ToastData) {
         channel.offer(toastData)
+    }
+
+    companion object {
+        const val debounceTimeInMillis = 1000L
     }
 }
