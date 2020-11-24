@@ -85,7 +85,7 @@
                     android:gravity="center"
                     android:paddingLeft="8dp"
                     android:paddingTop="8dp"
-                    android:paddingRight="16dp"
+                    android:paddingRight="8dp"
                     android:paddingBottom="8dp"
                     android:textAllCaps="false"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body2"
