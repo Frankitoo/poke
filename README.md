@@ -32,3 +32,7 @@ Bonus tasks:
 Further improvements should be: 
 1. The units tests should cover the application.
 2. The details screen should contain a lot more information about the Pokémon because the responses from the pokeapi.co are way more bigger than the app shows.
+
+List | Details
+------------ | -------------
+![Image of List](https://github.com/Frankitoo/poke/blob/master/screenshots/screenshot_list.png) | ![Image of List](https://github.com/Frankitoo/poke/blob/master/screenshots/screenshot_details.png)
