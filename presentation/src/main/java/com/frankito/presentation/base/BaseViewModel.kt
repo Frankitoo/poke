@@ -13,7 +13,6 @@ abstract class BaseViewModel : ViewModel() {
     // Navigation handling
     private var internalNavController: WeakReference<NavController>? = null
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
     val navController: NavController?
         get() = internalNavController?.get()
 
@@ -22,7 +21,6 @@ abstract class BaseViewModel : ViewModel() {
     }
 
     @CallSuper
-    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
     public override fun onCleared() {
         super.onCleared()
         internalNavController?.clear()

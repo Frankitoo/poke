@@ -33,5 +33,6 @@ fun getPokemonIdFromUrl(url: String): Int =
     url.split("/".toRegex()).dropLast(1).last().toInt()
 
 fun getPokemonImageUrlById(id: Int): String {
-    return "https://pokeres.bastionbot.org/images/pokemon/$id.png"
+    return "https://cdn.traction.one/pokedex/pokemon/$id.png"
+//    return "https://pokeres.bastionbot.org/images/pokemon/$id.png"
 }
